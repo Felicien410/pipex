@@ -15,7 +15,7 @@ all:	$(NAME)
 clean :
 	make -C libft clean
 	make -C printf clean
-	rm -f get_next_line.o get_next_line_utils_bonus.o
+	rm -f get_next_line_bonus.o get_next_line_utils_bonus.o
 	rm -f $(OBJS) $(OBJBONUS)
 
 fclean: clean

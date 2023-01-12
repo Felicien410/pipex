@@ -1,21 +1,20 @@
-gnl = 	get_next_line/get_next_line_bonus.c get_next_line/get_next_line_utils_bonus.c
+OBJSPIPEX = pipex.c get_env.c
 
 NAME = pipex.a
 
 compile:
 	make -C libft all
 	make -C printf all
-	gcc -Wall -Werror -Wextra -I get_next_line/get_next_line_bonus.h -c ${gnl}
 	cp libft/libft.a ${NAME}
 	cp printf/libftprintf.a ${NAME}
-	ar rcs ${NAME} ${OBJSPIPEX} get_next_line_bonus.o get_next_line_utils_bonus.o
+	ar rcs ${NAME} ${OBJSPIPEX} 
 
 all:	$(NAME)
 
 clean :
 	make -C libft clean
 	make -C printf clean
-	rm -f get_next_line_bonus.o get_next_line_utils_bonus.o
+
 	rm -f $(OBJS) $(OBJBONUS)
 
 fclean: clean

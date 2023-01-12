@@ -1,0 +1,11 @@
+total 2696
+-rw-r--r--   1 feliciencatteau  staff      429 Jan 12 21:03 Makefile
+-rwxr-xr-x   1 feliciencatteau  staff    36482 Jan 12 21:27 a.out
+-rw-r--r--   1 feliciencatteau  staff  1324774 Jan  3 15:33 fr.subject.pdf
+-rw-r--r--   1 feliciencatteau  staff     1611 Jan 12 21:01 get_env.c
+drwxr-xr-x  82 feliciencatteau  staff     2624 Jan 12 21:13 libft
+-rw-r--r--   1 feliciencatteau  staff     1097 Jan 12 21:26 pipex.c
+-rw-r--r--   1 feliciencatteau  staff      621 Jan 12 21:14 pipex.h
+drwxr-xr-x  12 feliciencatteau  staff      384 Jan 12 21:13 printf
+-rw-r--r--   1 feliciencatteau  staff        0 Jan 12 21:19 test.txt
+-rw-r--r--   1 feliciencatteau  staff        0 Jan 12 21:28 test2.txt

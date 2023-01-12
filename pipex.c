@@ -1,47 +1,53 @@
-#include<unistd.h>
-#include<stdlib.h>
-#include <fcntl.h>
+#include "pipex.h"
 
-void    pipex(int f1, int f2)
+void	child_process(char **argv, char **envp, int *fd)
 {
-    int   fd[2];
-    pid_t parent;
-    pipe(fd);
-    parent = fork();
-    if (parent < 0)
-    {
-        close(fd[0]);
-        close(fd[1]);
-        return (perror("Fork: "));
-    }
-    if (!parent) // if fork() returns 0, we are in the child process
-        child_process(f1, cmd1);
-    else
-        parent_process(f2, cmd2);
+	int		filein;
+
+	filein = open(argv[1], O_RDONLY, 0777);
+	if (filein == -1)
+		perror("error child process");
+	dup2(fd[WRITE_END], STDOUT_FILENO);
+	dup2(filein, STDIN_FILENO);
+	close(fd[READ_END]);
+	execute(argv[2], envp);
 }
 
-int child_process(f1, cmd1)
+void	parent_process(char **argv, char **envp, int *fd)
 {
-// add protection if dup2() < 0
-// dup2 close stdin, f1 becomes the new stdin
-dup2(fd[1], STDOUT_FILENO); // we want end[1] to be execve() stdout
-close(fd[0]);
-execve(cmd1, args1, NULL);
-perror ("error child process");
-exit(EXIT_FAILURE);
+	int		fileout;
+
+	fileout = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	if (fileout == -1)
+		perror("error parent process");
+	dup2(fd[READ_END], STDIN_FILENO);
+	dup2(fileout, STDOUT_FILENO);
+	close(fd[WRITE_END]);
+	execute(argv[3], envp);
 }
 
 
-
-
-int main(int ac, char **ag, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
-     int f1;
-     int f2;
-     f1 = open(ag[1], O_RDONLY);
-     f2 = open(ag[4], O_CREAT | O_RDWR | O_TRUNC, 0644);
-     if (f1 < 0 || f2 < 0)
-          return (-1);
-     pipex(f1, f2, ag, envp);
-     return (0);
+	int		fd[2];
+	pid_t	pid1;
+
+	if (argc == 5)
+	{
+		if (pipe(fd) == -1)
+			perror("error with the pipe");
+		pid1 = fork();
+		if (pid1 == -1)
+			perror("error with Fork");
+		if (pid1 == 0)
+			child_process(argv, envp, fd);
+		waitpid(pid1, NULL, 0);
+		parent_process(argv, envp, fd);
+	}
+	else
+	{
+		ft_putstr_fd("Bad arguments\n", 1);
+		ft_putstr_fd("Please use with this composition -> ./pipex <file1> <cmd1> <cmd2> <file2>\n", 1);
+	}
+	return (0);
 }

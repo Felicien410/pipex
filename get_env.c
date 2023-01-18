@@ -1,26 +1,27 @@
 #include "pipex.h"
 
-char	*ft_strstr(char *str, char *to_find)
+char	*find_path(const char	*big, const char *little, size_t len)
 {
-	int i;
-	int j;
+	size_t	i;
+	size_t	j;
 
 	i = 0;
-	if (to_find[0] == '\0')
-		return (str);
-	while (str[i] != '\0')
+	if (little[i] == '\0')
+		return ((char *)big);
+	while (big[i] && i < len)
 	{
 		j = 0;
-		while (str[i + j] != '\0' && str[i + j] == to_find[j])
+		while (big[i + j] == little[j] && i + j < len)
 		{
-			if (to_find[j + 1] == '\0')
-				return (&str[i]);
-			++j;
+			if (little[j + 1] == '\0')
+				return ((char *)big + i);
+			j++;
 		}
-		++i;
+		i++;
 	}
 	return (0);
 }
+
 
 char **get_after_variable_path (char **envp)
 {
@@ -28,12 +29,15 @@ char **get_after_variable_path (char **envp)
     char *path;
     while (envp[i])
     {
-        if (ft_strstr(envp[i], "PATH="))
+        if (find_path(envp[i], "PATH", 4))
         {
             path = ft_substr(envp[i], 5, ft_strlen(envp[i]));
             if (!path)
+			{
 				perror("Error");
-            return (ft_split(envp[i], ':'));
+				return (NULL);
+			}
+            return (ft_split(path, ':'));
         }
         i++;
     }
@@ -65,17 +69,16 @@ char *get_paths(char **envp, char *command)
 
 void	execute(char *ag, char **envp)
 {
-    int  i;
     char **command;
     char *mypath;
 
-    i = 0;
     command = ft_split(ag, ' ');
     mypath = get_paths(envp, command[0]);
     if (!mypath)
     {
         free_paths(command);
         perror ("erreur au niveau du chemin d'acces");
+		exit(EXIT_FAILURE);
     }
     execve(mypath, command, envp);
     perror ("erreur avec execve");

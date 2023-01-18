@@ -16,6 +16,8 @@ void	execute(char *ag, char **envp);
 void    free_paths (char **all_paths);
 void	child_process(char **argv, char **envp, int *fd);
 void	parent_process(char **argv, char **envp, int *fd);
+char	*find_path(const char	*big, const char *little, size_t len);
+char	*ft_strstr(char *str, char *to_find);
 
 # ifndef READ_END
 #  define READ_END 0

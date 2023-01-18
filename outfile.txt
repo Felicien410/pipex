@@ -1,0 +1,12 @@
+Makefile
+get_env.c
+get_env.o
+hihi
+infile.txt
+libft
+outfile.txt
+pipex
+pipex.a
+pipex.c
+pipex.h
+pipex.o

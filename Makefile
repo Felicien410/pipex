@@ -1,28 +1,36 @@
-OBJSPIPEX = pipex.c get_env.c
+NAME = pipex
 
-NAME = pipex.a
+LIB_PATH = libft/
 
-compile:
-	make -C libft all
-	make -C printf all
-	cp libft/libft.a ${NAME}
-	cp printf/libftprintf.a ${NAME}
-	ar rcs ${NAME} ${OBJSPIPEX} 
+LIB = -L libft -lft
 
-all:	$(NAME)
+SRCS = pipex.c\
+		get_env.c\
 
-clean :
-	make -C libft clean
-	make -C printf clean
+CC = gcc
 
-	rm -f $(OBJS) $(OBJBONUS)
+OBJS = $(SRCS:.c=.o)
 
-fclean: clean
-	make -C libft fclean
-	make -C printf fclean
-	rm -f get_next_line/a.out
-	rm -f pipex.a
+HEADER = pipex.h
+
+CFLAGS = -Wall -Werror -Wextra
+
+all: $(NAME)
+
+$(NAME): $(HEADER) $(OBJS) $(SRCS)
+		make -C $(LIB_PATH)
+		$(CC) $(CFLAGS) $(OBJS) $(LIB) -o $@
+
+clean: 
+	@rm -f *.out
+	@rm -f *.o
+	@rm -f $(OBJS)
+	make clean -C $(LIB_PATH)
+
+fclean:	clean
+	@rm -f $(NAME)
+	make fclean -C $(LIB_PATH)
 
 re: fclean all
 
-.PHONY : all clean fclean bonus
+.PHONY: all clean fclean re bonus

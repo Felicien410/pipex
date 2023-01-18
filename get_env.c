@@ -80,7 +80,7 @@ void	execute(char *ag, char **envp)
         perror ("erreur au niveau du chemin d'acces");
 		exit(EXIT_FAILURE);
     }
-    execve(mypath, command, envp);
+    execve(mypath, command, envp);	
     perror ("erreur avec execve");
     return;
 }

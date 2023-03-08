@@ -67,7 +67,7 @@ char *get_paths(char **envp, char *command)
     return (0);
 }
 
-void	execute(char *ag, char **envp)
+void	realisation(char *ag, char **envp)
 {
     char **command;
     char *mypath;
